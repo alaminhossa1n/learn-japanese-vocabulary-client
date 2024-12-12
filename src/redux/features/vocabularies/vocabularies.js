@@ -8,9 +8,40 @@ const vocabularyApi = baseApi.injectEndpoints({
         method: "GET",
         params: queryParams,
       }),
-      providesTags: ["tutorials"],
+      providesTags: ["vocabularies"],
+    }),
+
+    createVocabulary: builder.mutation({
+      query: (newVocabulary) => ({
+        url: "/vocabulary/create",
+        method: "POST",
+        body: newVocabulary,
+      }),
+      invalidatesTags: ["vocabularies"],
+    }),
+
+    updateVocabulary: builder.mutation({
+      query: ({ updatedLesson }) => ({
+        url: `/vocabulary/update/`,
+        method: "PATCH",
+        body: updatedLesson,
+      }),
+      invalidatesTags: ["vocabularies"],
+    }),
+
+    deleteVocabulary: builder.mutation({
+      query: (id) => ({
+        url: `/vocabulary/delete/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["vocabularies"],
     }),
   }),
 });
 
-export const { useGetAllVocabulariesQuery } = vocabularyApi;
+export const {
+  useGetAllVocabulariesQuery,
+  useCreateVocabularyMutation,
+  useUpdateVocabularyMutation,
+  useDeleteVocabularyMutation,
+} = vocabularyApi;
