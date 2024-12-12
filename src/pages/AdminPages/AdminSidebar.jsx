@@ -125,27 +125,7 @@ const AdminSidebar = () => {
                     : "text-gray-300 hover:bg-gray-700"
                 }`}
               >
-                View Users
-              </Link>
-              <Link
-                to="/admin-panel/manage-users/promote"
-                className={`block px-4 py-2 transition ${
-                  isActive("/admin-panel/manage-users/promote")
-                    ? "bg-gray-700 text-white"
-                    : "text-gray-300 hover:bg-gray-700"
-                }`}
-              >
-                Promote User
-              </Link>
-              <Link
-                to="/admin-panel/manage-users/demote"
-                className={`block px-4 py-2 transition ${
-                  isActive("/admin-panel/manage-users/demote")
-                    ? "bg-gray-700 text-white"
-                    : "text-gray-300 hover:bg-gray-700"
-                }`}
-              >
-                Demote User
+                Manage Role
               </Link>
             </div>
           )}

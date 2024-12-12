@@ -27,10 +27,32 @@ const authApi = baseApi.injectEndpoints({
       }),
       providesTags: ["users"],
     }),
+
+    updateRole: builder.mutation({
+      query: (userInfo) => ({
+        url: "/user/updateRole",
+        method: "PATCH",
+        body: userInfo,
+      }),
+      invalidatesTags: ["users"],
+    }),
+
+    getUsers: builder.query({
+      query: () => ({
+        url: "/user/get-all-user",
+        method: "GET",
+      }),
+      providesTags: ["users"],
+    }),
   }),
 });
 
-export const { useSignUpMutation, useCurrentUserQuery, useSigninMutation } =
-  authApi;
+export const {
+  useSignUpMutation,
+  useCurrentUserQuery,
+  useSigninMutation,
+  useUpdateRoleMutation,
+  useGetUsersQuery,
+} = authApi;
 
 export default authApi;

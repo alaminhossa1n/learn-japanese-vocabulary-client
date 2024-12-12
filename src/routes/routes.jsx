@@ -14,6 +14,7 @@ import HomePage from "../pages/Users/HomePage";
 import AdminRoute from "./AdminRoute";
 import UserRoute from "./UserRoute";
 import PrivateLoginAndRegi from "./PrivateLoginAndRegi";
+import ManageUsers from "../pages/AdminPages/ManageUser/ManageUsers";
 
 const router = createBrowserRouter([
   {
@@ -93,6 +94,10 @@ const router = createBrowserRouter([
       {
         path: "/admin-panel/manage-vocabularies/modify",
         element: <ModifyVocabulary />,
+      },
+      {
+        path: "/admin-panel/manage-users",
+        element: <ManageUsers />,
       },
     ],
   },
