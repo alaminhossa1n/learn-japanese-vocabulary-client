@@ -23,6 +23,7 @@ const AdminSidebar = () => {
   const { refetch } = useCurrentUserQuery();
   const handleLogout = () => {
     dispatch(logout());
+    location.reload();
     refetch();
   };
   return (

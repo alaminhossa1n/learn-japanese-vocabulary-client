@@ -6,6 +6,9 @@ const UserRoute = ({ children }) => {
   const { data } = useCurrentUserQuery();
   const user = data?.data;
 
+  if (!user) {
+    return <Navigate to="/login"></Navigate>;
+  }
   if (user?.role === "User") {
     return children;
   }
@@ -13,7 +16,6 @@ const UserRoute = ({ children }) => {
   if (user?.role === "Admin") {
     return <Navigate to="/admin-panel"></Navigate>;
   }
-  return <Navigate to="/login"></Navigate>;
 };
 
 export default UserRoute;

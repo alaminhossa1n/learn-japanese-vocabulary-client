@@ -50,25 +50,25 @@ const LessonDetails = () => {
         {/* Vocabulary Details */}
         <div className="text-center">
           <h2 className="text-3xl font-bold text-red-600 mb-4">
-            {currentVocab.word}
+            {currentVocab?.word}
           </h2>
           <p className="text-lg text-gray-700">
             <span className="font-semibold">Pronunciation:</span>{" "}
-            {currentVocab.pronunciation}
+            {currentVocab?.pronunciation}
           </p>
           <p className="text-lg text-gray-700">
             <span className="font-semibold">Meaning:</span>{" "}
-            {currentVocab.meaning}
+            {currentVocab?.meaning}
           </p>
           <p className="text-lg text-gray-700 mb-4">
             <span className="font-semibold">When to say:</span>{" "}
-            {currentVocab.whenToSay}
+            {currentVocab?.whenToSay}
           </p>
 
           {/* Pronunciation Button */}
           <button
             onClick={() =>
-              alert(`Playing pronunciation for ${currentVocab.word}`)
+              alert(`Playing pronunciation for ${currentVocab?.word}`)
             }
             className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition"
           >

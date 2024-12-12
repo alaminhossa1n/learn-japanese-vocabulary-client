@@ -58,8 +58,7 @@ const AddVocabulary = () => {
         toast.error("Failed to add vocabulary.");
       }
     } catch (error) {
-      console.error("Error adding vocabulary:", error);
-      toast.error("An error occurred while adding vocabulary.");
+      toast.error(error.data.message);
     }
   };
 

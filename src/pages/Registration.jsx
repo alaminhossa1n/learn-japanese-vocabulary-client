@@ -78,7 +78,7 @@ const Registration = () => {
         console.error("Image upload failed:", imgResponse.error);
       }
     } catch (error) {
-      console.error("An error occurred:", error);
+      toast.error(error.data.message)
     }
   };
 

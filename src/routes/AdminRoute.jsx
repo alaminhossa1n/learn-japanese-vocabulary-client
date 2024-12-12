@@ -7,6 +7,9 @@ const AdminRoute = ({ children }) => {
   const { data } = useCurrentUserQuery();
   const user = data?.data;
 
+  if (!user) {
+    return <Navigate to="/login"></Navigate>;
+  }
   if (user?.role === "Admin") {
     return children;
   }
@@ -15,7 +18,6 @@ const AdminRoute = ({ children }) => {
     toast.message("You don't have access in Admin Panel.");
     return <Navigate to="/"></Navigate>;
   }
-  return <Navigate to="/login"></Navigate>;
 };
 
 export default AdminRoute;

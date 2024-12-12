@@ -1,11 +1,6 @@
 import { Link } from "react-router-dom";
-import { useCurrentUserQuery } from "../../redux/features/auth/authApi";
 
 const HomePage = () => {
-  const { data } = useCurrentUserQuery();
-
-  console.log(data);
-  
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Hero Section */}
