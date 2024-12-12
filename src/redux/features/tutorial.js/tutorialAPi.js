@@ -9,7 +9,28 @@ const tutorialApi = baseApi.injectEndpoints({
       }),
       providesTags: ["tutorials"],
     }),
+
+    createTutorial: builder.mutation({
+      query: (t) => ({
+        url: "/tutorial/create",
+        method: "POST",
+        body: t,
+      }),
+      invalidatesTags: ["tutorials"],
+    }),
+
+    deleteTutorial: builder.mutation({
+      query: (id) => ({
+        url: `/tutorial/delete/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["tutorials"],
+    }),
   }),
 });
 
-export const { useGetAllTutorialQuery } = tutorialApi;
+export const {
+  useGetAllTutorialQuery,
+  useCreateTutorialMutation,
+  useDeleteTutorialMutation,
+} = tutorialApi;

@@ -8,13 +8,14 @@ const AdminSidebar = () => {
   const [isLessonsOpen, setIsLessonsOpen] = useState(false);
   const [isVocabularyOpen, setIsVocabularyOpen] = useState(false);
   const [isUsersOpen, setIsUsersOpen] = useState(false);
+  const [isTutorialOpen, setIsTutorialOpen] = useState(false);
 
   const location = useLocation();
 
   const toggleLessons = () => setIsLessonsOpen(!isLessonsOpen);
   const toggleVocabulary = () => setIsVocabularyOpen(!isVocabularyOpen);
   const toggleUsers = () => setIsUsersOpen(!isUsersOpen);
-
+  const toggleTutorials = () => setIsTutorialOpen(!isTutorialOpen);
   const isActive = (path) => location.pathname === path;
 
   //handle logout
@@ -126,6 +127,40 @@ const AdminSidebar = () => {
                 }`}
               >
                 Manage Role
+              </Link>
+            </div>
+          )}
+        </div>
+
+        {/* Manage Tutorials */}
+        <div>
+          <button
+            onClick={toggleTutorials}
+            className="w-full text-left px-4 py-3 text-gray-300 hover:bg-gray-700 transition"
+          >
+            Manage Tutorials
+          </button>
+          {isTutorialOpen && (
+            <div className="pl-6 space-y-2">
+              <Link
+                to="/admin-panel/add-video"
+                className={`block px-4 py-2 transition ${
+                  isActive("/admin-panel/add-video")
+                    ? "bg-gray-700 text-white"
+                    : "text-gray-300 hover:bg-gray-700"
+                }`}
+              >
+                Add Video
+              </Link>
+              <Link
+                to="/admin-panel/delete-video"
+                className={`block px-4 py-2 transition ${
+                  isActive("/admin-panel/delete-video")
+                    ? "bg-gray-700 text-white"
+                    : "text-gray-300 hover:bg-gray-700"
+                }`}
+              >
+                Delete Video
               </Link>
             </div>
           )}

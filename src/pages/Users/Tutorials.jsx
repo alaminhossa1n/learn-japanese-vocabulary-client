@@ -22,11 +22,14 @@ const Tutorials = () => {
               >
                 <iframe
                   className="w-full h-48"
-                  src={tutorial.videoUrl}
+                  src={`https://www.youtube.com/embed/${
+                    tutorial.videoUrl.split("youtu.be/")[1].split("?")[0]
+                  }`}
                   title={tutorial.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
+
                 <div className="p-4">
                   <h2 className="text-xl font-semibold text-red-600">
                     {tutorial.title}

@@ -15,6 +15,8 @@ import AdminRoute from "./AdminRoute";
 import UserRoute from "./UserRoute";
 import PrivateLoginAndRegi from "./PrivateLoginAndRegi";
 import ManageUsers from "../pages/AdminPages/ManageUser/ManageUsers";
+import AddVideo from "../pages/AdminPages/Tutorial/AddVideo";
+import DeleteVideo from "../pages/AdminPages/Tutorial/DeleteVideo";
 
 const router = createBrowserRouter([
   {
@@ -98,6 +100,14 @@ const router = createBrowserRouter([
       {
         path: "/admin-panel/manage-users",
         element: <ManageUsers />,
+      },
+      {
+        path: "/admin-panel/add-video",
+        element: <AddVideo />,
+      },
+      {
+        path: "/admin-panel/delete-video",
+        element: <DeleteVideo />,
       },
     ],
   },
