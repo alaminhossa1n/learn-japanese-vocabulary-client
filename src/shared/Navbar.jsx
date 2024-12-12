@@ -6,12 +6,12 @@ import { useCurrentUserQuery } from "../redux/features/auth/authApi";
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const { data, refetch } = useCurrentUserQuery();
-
   const user = data?.data;
 
   const handleLogout = () => {
     dispatch(logout());
     refetch();
+    window.location.reload();
   };
 
   return (
@@ -39,12 +39,7 @@ const Navbar = () => {
             >
               Tutorials
             </Link>
-            {/* <Link
-              to="/profile"
-              className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium"
-            >
-              Profile
-            </Link> */}
+
             {user ? (
               <button
                 onClick={handleLogout}
@@ -107,18 +102,21 @@ const Navbar = () => {
           >
             Tutorials
           </Link>
-          <Link
-            to="/profile"
-            className="block text-gray-800 hover:text-red-600 px-3 py-2 rounded-md text-base font-medium"
-          >
-            Profile
-          </Link>
-          <Link
-            to="/logout"
-            className="block text-gray-800 hover:text-red-600 px-3 py-2 rounded-md text-base font-medium"
-          >
-            Logout
-          </Link>
+          {user ? (
+            <button
+              onClick={handleLogout}
+              className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              to={"/login"}
+              className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </nav>

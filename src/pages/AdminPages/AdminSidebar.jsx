@@ -24,6 +24,7 @@ const AdminSidebar = () => {
   const handleLogout = () => {
     dispatch(logout());
     refetch();
+    window.location.reload();
   };
   return (
     <aside className="w-64 bg-gray-800 text-gray-200 flex flex-col">

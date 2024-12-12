@@ -6,7 +6,7 @@ import { useAppDispatch } from "../redux/hooks";
 import { toast } from "sonner";
 
 const Login = () => {
-  const [signin] = useSigninMutation();
+  const [signin, { isLoading }] = useSigninMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -28,12 +28,14 @@ const Login = () => {
       if (res.success === true) {
         toast.success("Login Successful");
 
+        // Navigate before dispatch
         if (res.data.user.role === "Admin") {
           navigate("/admin-panel");
         } else if (res.data.user.role === "User") {
           navigate("/");
         }
 
+        // Update Redux state
         dispatch(setToken(res?.data));
       }
     } catch (error) {
@@ -91,9 +93,14 @@ const Login = () => {
           <div>
             <button
               type="submit"
-              className="w-full bg-red-600 text-white px-4 py-2 rounded-md shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+              className={`px-4 py-2 rounded-md ${
+                isLoading
+                  ? "bg-gray-500 text-white cursor-not-allowed"
+                  : "bg-red-600 text-white hover:bg-red-700"
+              }`}
+              disabled={isLoading}
             >
-              Login
+              {isLoading ? "Loading..." : "Login"}
             </button>
           </div>
         </form>
