@@ -10,7 +10,7 @@ const Registration = () => {
   const image_Upload_token = import.meta.env.VITE_Image_Upload_token;
   const img_hosting_url = `https://api.imgbb.com/1/upload?key=${image_Upload_token}`;
   const navigate = useNavigate();
-  const [signUp] = useSignUpMutation();
+  const [signUp, { isLoading }] = useSignUpMutation();
 
   const [formsData, setFormsData] = useState({
     name: "",
@@ -72,13 +72,14 @@ const Registration = () => {
         // Call signUp function
         const res = await signUp(updatedFormData).unwrap();
         if (res?.success == true) {
+          toast.success("Registration Success, Please login.")
           navigate("/login");
         }
       } else {
         console.error("Image upload failed:", imgResponse.error);
       }
     } catch (error) {
-      toast.error(error.data.message)
+      toast.error(error.data.message);
     }
   };
 
@@ -169,9 +170,14 @@ const Registration = () => {
           <div>
             <button
               type="submit"
-              className="w-full bg-red-600 text-white px-4 py-2 rounded-md shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+              className={`px-4 py-2 rounded-md ${
+                isLoading
+                  ? "bg-gray-500 text-white cursor-not-allowed"
+                  : "bg-red-600 text-white hover:bg-red-700"
+              }`}
+              disabled={isLoading}
             >
-              Register
+              {isLoading ? "Loading..." : "Register"}
             </button>
           </div>
         </form>
