@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { useDeleteVocabularyMutation, useGetAllVocabulariesQuery, useUpdateVocabularyMutation } from "../../../redux/features/vocabularies/vocabularies";
+import {
+  useDeleteVocabularyMutation,
+  useGetAllVocabulariesQuery,
+  useUpdateVocabularyMutation,
+} from "../../../redux/features/vocabularies/vocabularies";
 
 const ModifyVocabulary = () => {
   const { data, refetch } = useGetAllVocabulariesQuery();
@@ -42,10 +46,8 @@ const ModifyVocabulary = () => {
   const handleUpdateVocabulary = async () => {
     try {
       await updateVocabulary({
-        updatedVocabulary: {
-          _id: editingVocabulary._id,
-          updatedDoc: formData,
-        },
+        _id: editingVocabulary._id,
+        updatedDoc: formData,
       }).unwrap();
       toast("Vocabulary updated successfully!");
       setEditingVocabulary(null);

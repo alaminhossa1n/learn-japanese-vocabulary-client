@@ -21,8 +21,8 @@ const vocabularyApi = baseApi.injectEndpoints({
     }),
 
     updateVocabulary: builder.mutation({
-      query: ({ updatedLesson }) => ({
-        url: `/vocabulary/update/`,
+      query: (updatedLesson) => ({
+        url: `/vocabulary/update`,
         method: "PATCH",
         body: updatedLesson,
       }),

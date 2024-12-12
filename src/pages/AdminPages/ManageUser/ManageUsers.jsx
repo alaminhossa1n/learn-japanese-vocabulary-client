@@ -27,7 +27,7 @@ const ManageUsers = () => {
 
     try {
       await updateRole({
-        id: selectedUser._id,
+        _id: selectedUser._id,
         role: newRole,
       }).unwrap();
       toast.success("User role updated successfully!");
