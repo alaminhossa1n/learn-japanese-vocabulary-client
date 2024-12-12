@@ -1,7 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { setToken } from "../redux/features/auth/authSlice";
+import { useSigninMutation } from "../redux/features/auth/authApi";
+import { useAppDispatch } from "../redux/hooks";
 
 const Login = () => {
+  const [signin] = useSigninMutation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -12,10 +19,19 @@ const Login = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Login successful!");
-    // Add authentication logic here
+    const res = await signin(formData).unwrap();
+    
+    if (res.success == true) {
+      if (res.data.user.role == "Admin") {
+        navigate("/admin-panel");
+      }
+      if (res.data.user.role == "User") {
+        navigate("/");
+      }
+    }
+    dispatch(setToken(res?.data));
   };
 
   return (

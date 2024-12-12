@@ -1,26 +1,69 @@
 import { useState } from "react";
+import { useSignUpMutation } from "../redux/features/auth/authApi";
+import { useNavigate } from "react-router-dom";
 
 const Registration = () => {
-  const [formData, setFormData] = useState({
+  const image_Upload_token = import.meta.env.VITE_Image_Upload_token;
+  const img_hosting_url = `https://api.imgbb.com/1/upload?key=${image_Upload_token}`;
+  const navigate = useNavigate();
+  const [signUp] = useSignUpMutation();
+
+  const [formsData, setFormsData] = useState({
     name: "",
     email: "",
     password: "",
     photo: null,
   });
 
+  const [imageData, setImageData] = useState(null);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormsData({ ...formsData, [name]: value });
   };
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, photo: e.target.files[0] });
+    const file = e.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("image", file);
+      setImageData(formData);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Registration successful!");
-    // Here you can send the formData to the server
+
+    try {
+      // Ensure image data is set
+      if (!imageData) {
+        console.error("No image selected for upload.");
+        return;
+      }
+
+      // Upload the image to ImgBB
+      const imgResponse = await fetch(img_hosting_url, {
+        method: "POST",
+        body: imageData,
+      }).then((res) => res.json());
+
+      if (imgResponse.success) {
+        const imgURL = imgResponse?.data?.display_url;
+
+        // Add the image URL to the form data
+        const updatedFormData = { ...formsData, photo: imgURL };
+
+        // Call signUp function
+        const res = await signUp(updatedFormData).unwrap();
+        if (res?.success == true) {
+          navigate("/login");
+        }
+      } else {
+        console.error("Image upload failed:", imgResponse.error);
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
   };
 
   return (
@@ -43,7 +86,7 @@ const Registration = () => {
               type="text"
               id="name"
               name="name"
-              value={formData.name}
+              value={formsData.name}
               onChange={handleInputChange}
               required
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
@@ -62,7 +105,7 @@ const Registration = () => {
               type="email"
               id="email"
               name="email"
-              value={formData.email}
+              value={formsData.email}
               onChange={handleInputChange}
               required
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
@@ -81,7 +124,7 @@ const Registration = () => {
               type="password"
               id="password"
               name="password"
-              value={formData.password}
+              value={formsData.password}
               onChange={handleInputChange}
               required
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"

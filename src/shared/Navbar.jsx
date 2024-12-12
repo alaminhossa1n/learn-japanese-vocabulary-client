@@ -1,6 +1,19 @@
 import { Link } from "react-router-dom";
+import { logout } from "../redux/features/auth/authSlice";
+import { useAppDispatch } from "../redux/hooks";
+import { useCurrentUserQuery } from "../redux/features/auth/authApi";
 
 const Navbar = () => {
+  const dispatch = useAppDispatch();
+  const { data, refetch } = useCurrentUserQuery();
+
+  const user = data?.data;
+
+  const handleLogout = () => {
+    dispatch(logout());
+    refetch();
+  };
+
   return (
     <nav className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,12 +45,21 @@ const Navbar = () => {
             >
               Profile
             </Link>
-            <Link
-              to="/logout"
-              className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium"
-            >
-              Logout
-            </Link>
+            {user ? (
+              <button
+                onClick={handleLogout}
+                className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to={"/login"}
+                className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Login
+              </Link>
+            )}
           </div>
 
           {/* Hamburger Menu for Mobile */}
