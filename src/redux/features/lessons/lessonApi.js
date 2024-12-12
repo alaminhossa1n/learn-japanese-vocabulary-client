@@ -9,7 +9,38 @@ const lessonApi = baseApi.injectEndpoints({
       }),
       providesTags: ["lessons"],
     }),
+
+    createLesson: builder.mutation({
+      query: (newLesson) => ({
+        url: "/lesson/create",
+        method: "POST",
+        body: newLesson,
+      }),
+      invalidatesTags: ["lessons"],
+    }),
+
+    updateLesson: builder.mutation({
+      query: ({ updatedLesson }) => ({
+        url: `/lesson/update/`,
+        method: "PATCH",
+        body: updatedLesson,
+      }),
+      invalidatesTags: ["lessons"],
+    }),
+
+    deleteLesson: builder.mutation({
+      query: (id) => ({
+        url: `/lesson/delete/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Lessons"],
+    }),
   }),
 });
 
-export const { useGetAllLessonsQuery } = lessonApi;
+export const {
+  useGetAllLessonsQuery,
+  useCreateLessonMutation,
+  useUpdateLessonMutation,
+  useDeleteLessonMutation,
+} = lessonApi;

@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setToken } from "../redux/features/auth/authSlice";
-import {
-  useCurrentUserQuery,
-  useSigninMutation,
-} from "../redux/features/auth/authApi";
+import { useSigninMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
 import { toast } from "sonner";
 
@@ -17,18 +14,6 @@ const Login = () => {
     password: "",
   });
 
-  const { data } = useCurrentUserQuery();
-  const user = data?.data;
-  if (user) {
-    toast.info("Your are already Logged in");
-    if (user.role == "Admin") {
-      navigate("/admin-panel");
-    }
-    if (user.role == "User") {
-      navigate("/");
-    }
-  }
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -36,18 +21,24 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await signin(formData).unwrap();
 
-    if (res.success == true) {
-      toast.success("Login Successful");
-      if (res.data.user.role == "Admin") {
-        navigate("/admin-panel");
+    try {
+      const res = await signin(formData).unwrap();
+
+      if (res.success === true) {
+        toast.success("Login Successful");
+
+        if (res.data.user.role === "Admin") {
+          navigate("/admin-panel");
+        } else if (res.data.user.role === "User") {
+          navigate("/");
+        }
+
+        dispatch(setToken(res?.data));
       }
-      if (res.data.user.role == "User") {
-        navigate("/");
-      }
+    } catch (error) {
+      toast.error(error.data.message);
     }
-    dispatch(setToken(res?.data));
   };
 
   return (
@@ -73,7 +64,7 @@ const Login = () => {
               value={formData.email}
               onChange={handleInputChange}
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm py-2 pl-2"
             />
           </div>
 
@@ -92,7 +83,7 @@ const Login = () => {
               value={formData.password}
               onChange={handleInputChange}
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm py-2 pl-2"
             />
           </div>
 

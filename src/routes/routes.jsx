@@ -13,6 +13,7 @@ import ModifyVocabulary from "../pages/AdminPages/Vocabularies/ModifyVocabulary"
 import HomePage from "../pages/Users/HomePage";
 import AdminRoute from "./AdminRoute";
 import UserRoute from "./UserRoute";
+import PrivateLoginAndRegi from "./PrivateLoginAndRegi";
 
 const router = createBrowserRouter([
   {
@@ -27,8 +28,22 @@ const router = createBrowserRouter([
           </UserRoute>
         ),
       },
-      { path: "/register", element: <Registration /> },
-      { path: "/login", element: <Login /> },
+      {
+        path: "/register",
+        element: (
+          <PrivateLoginAndRegi>
+            <Registration />
+          </PrivateLoginAndRegi>
+        ),
+      },
+      {
+        path: "/login",
+        element: (
+          <PrivateLoginAndRegi>
+            <Login />
+          </PrivateLoginAndRegi>
+        ),
+      },
       {
         path: "/lessons",
         element: (

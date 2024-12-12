@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { useCurrentUserQuery, useSignUpMutation } from "../redux/features/auth/authApi";
+import {
+  useCurrentUserQuery,
+  useSignUpMutation,
+} from "../redux/features/auth/authApi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -102,7 +105,7 @@ const Registration = () => {
               value={formsData.name}
               onChange={handleInputChange}
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm py-2 pl-2"
             />
           </div>
 
@@ -121,7 +124,7 @@ const Registration = () => {
               value={formsData.email}
               onChange={handleInputChange}
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm py-2 pl-2"
             />
           </div>
 
@@ -140,7 +143,7 @@ const Registration = () => {
               value={formsData.password}
               onChange={handleInputChange}
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm py-2 pl-2"
             />
           </div>
 

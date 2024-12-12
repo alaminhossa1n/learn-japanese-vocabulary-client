@@ -1,6 +1,46 @@
+import { useState } from "react";
+import { toast } from "sonner";
+import { useCreateLessonMutation } from "../../../redux/features/lessons/lessonApi";
+import { useCurrentUserQuery } from "../../../redux/features/auth/authApi";
+
 const AddLesson = () => {
-  // Handle adding a new lesson
-  const handleAddLesson = () => {};
+  const [createLesson, { isLoading }] = useCreateLessonMutation();
+  const [formData, setFormData] = useState({
+    lessonName: "",
+    lessonNumber: "",
+    adminEmail: "",
+  });
+
+  const { data } = useCurrentUserQuery();
+  const user = data?.data;
+  if (user) {
+    formData.adminEmail = user.email;
+  }
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
+  const handleAddLesson = async () => {
+    try {
+      const response = await createLesson(formData).unwrap();
+
+      if (response.success) {
+        toast.success("Lesson added successfully!");
+        setFormData({
+          lessonName: "",
+          lessonNumber: "",
+          vocabularyCount: "",
+        });
+      }
+    } catch (error) {
+      toast.error(error.data.message);
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -22,9 +62,12 @@ const AddLesson = () => {
               Lesson Name
             </label>
             <input
+              required
               id="lessonName"
               type="text"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+              value={formData.lessonName}
+              onChange={handleInputChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm py-2 pl-2"
               placeholder="Enter lesson name"
             />
           </div>
@@ -38,33 +81,26 @@ const AddLesson = () => {
             </label>
             <input
               id="lessonNumber"
+              required
               type="number"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+              value={formData.lessonNumber}
+              onChange={handleInputChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm py-2 pl-2"
               placeholder="Enter lesson number"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="vocabularyCount"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Vocabulary Count
-            </label>
-            <input
-              id="vocabularyCount"
-              type="number"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
-              placeholder="Enter vocabulary count"
             />
           </div>
 
           <div className="flex justify-end">
             <button
               onClick={handleAddLesson}
-              className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700"
+              className={`px-4 py-2 rounded-md ${
+                isLoading
+                  ? "bg-gray-500 text-white cursor-not-allowed"
+                  : "bg-red-600 text-white hover:bg-red-700"
+              }`}
+              disabled={isLoading}
             >
-              Add Lesson
+              {isLoading ? "Adding..." : "Add Lesson"}
             </button>
           </div>
         </div>

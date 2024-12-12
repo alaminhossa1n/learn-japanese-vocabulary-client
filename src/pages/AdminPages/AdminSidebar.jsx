@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useAppDispatch } from "../../redux/hooks";
+import { useCurrentUserQuery } from "../../redux/features/auth/authApi";
+import { logout } from "../../redux/features/auth/authSlice";
 
 const AdminSidebar = () => {
   const [isLessonsOpen, setIsLessonsOpen] = useState(false);
@@ -14,6 +17,14 @@ const AdminSidebar = () => {
 
   const isActive = (path) => location.pathname === path;
 
+  //handle logout
+
+  const dispatch = useAppDispatch();
+  const { refetch } = useCurrentUserQuery();
+  const handleLogout = () => {
+    dispatch(logout());
+    refetch();
+  };
   return (
     <aside className="w-64 bg-gray-800 text-gray-200 flex flex-col">
       {/* Header */}
@@ -142,7 +153,10 @@ const AdminSidebar = () => {
 
       {/* Logout Button */}
       <div className="p-4 border-t border-gray-700">
-        <button className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition">
+        <button
+          onClick={handleLogout}
+          className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition"
+        >
           Logout
         </button>
       </div>
