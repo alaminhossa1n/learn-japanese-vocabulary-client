@@ -20,6 +20,15 @@ const LessonDetails = () => {
     );
   }
 
+  const handlePronunciation = () => {
+    const speech = new SpeechSynthesisUtterance(currentVocab.word);
+    speech.lang = "ja-JP";
+    speech.rate = 1;
+    speech.pitch = 1;
+
+    window.speechSynthesis.speak(speech);
+  };
+
   const handleNext = () => {
     if (currentIndex < vocabularies?.length - 1) {
       setCurrentIndex(currentIndex + 1);
@@ -67,9 +76,7 @@ const LessonDetails = () => {
 
           {/* Pronunciation Button */}
           <button
-            onClick={() =>
-              alert(`Playing pronunciation for ${currentVocab?.word}`)
-            }
+            onClick={handlePronunciation}
             className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition"
           >
             Play Pronunciation
