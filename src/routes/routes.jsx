@@ -11,6 +11,8 @@ import AddLesson from "../pages/AdminPages/Lessons/AddLesson";
 import AddVocabulary from "../pages/AdminPages/Vocabularies/AddVocabulary";
 import ModifyVocabulary from "../pages/AdminPages/Vocabularies/ModifyVocabulary";
 import HomePage from "../pages/Users/HomePage";
+import AdminRoute from "./AdminRoute";
+import UserRoute from "./UserRoute";
 
 const router = createBrowserRouter([
   {
@@ -19,27 +21,47 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomePage />,
+        element: (
+          <UserRoute>
+            <HomePage />
+          </UserRoute>
+        ),
       },
       { path: "/register", element: <Registration /> },
       { path: "/login", element: <Login /> },
       {
         path: "/lessons",
-        element: <Lessons />,
+        element: (
+          <UserRoute>
+            <Lessons />
+          </UserRoute>
+        ),
       },
       {
         path: "/lessons/:id",
-        element: <LessonDetails />,
+        element: (
+          <UserRoute>
+            <LessonDetails />
+          </UserRoute>
+        ),
       },
       {
         path: "/tutorials",
-        element: <Tutorials />,
+        element: (
+          <UserRoute>
+            <Tutorials />
+          </UserRoute>
+        ),
       },
     ],
   },
   {
     path: "/admin-panel",
-    element: <AdminPanel />,
+    element: (
+      <AdminRoute>
+        <AdminPanel />
+      </AdminRoute>
+    ),
     children: [
       {
         path: "/admin-panel/manage-lessons/add",

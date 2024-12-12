@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useSignUpMutation } from "../redux/features/auth/authApi";
+import { useCurrentUserQuery, useSignUpMutation } from "../redux/features/auth/authApi";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Registration = () => {
   const image_Upload_token = import.meta.env.VITE_Image_Upload_token;
@@ -16,6 +17,18 @@ const Registration = () => {
   });
 
   const [imageData, setImageData] = useState(null);
+
+  const { data } = useCurrentUserQuery();
+  const user = data?.data;
+  if (user) {
+    toast.info("Your are already Logged in");
+    if (user.role == "Admin") {
+      navigate("/admin-panel");
+    }
+    if (user.role == "User") {
+      navigate("/");
+    }
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

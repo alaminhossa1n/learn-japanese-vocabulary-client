@@ -1,36 +1,27 @@
 import { useState } from "react";
 import Confetti from "react-confetti";
+import { useGetAllVocabulariesQuery } from "../../redux/features/vocabularies/vocabularies";
+import { useParams } from "react-router-dom";
 
 const LessonDetails = () => {
-  const vocabularies = [
-    {
-      id: 1,
-      word: "こんにちは",
-      pronunciation: "Konnichiwa",
-      meaning: "Hello",
-      whenToSay: "Used as a greeting during the day",
-    },
-    {
-      id: 2,
-      word: "ありがとう",
-      pronunciation: "Arigatou",
-      meaning: "Thank you",
-      whenToSay: "Used to express gratitude",
-    },
-    {
-      id: 3,
-      word: "さようなら",
-      pronunciation: "Sayounara",
-      meaning: "Goodbye",
-      whenToSay: "Used when parting for an extended period",
-    },
-  ];
+  const { id } = useParams();
+
+  const { data } = useGetAllVocabulariesQuery({ lessonNumber: id });
+  const vocabularies = data?.data;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [completed, setCompleted] = useState(false);
 
+  if (!vocabularies) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-12 h-12 border-4 border-blue-500 border-solid rounded-full border-t-transparent animate-spin"></div>
+      </div>
+    );
+  }
+
   const handleNext = () => {
-    if (currentIndex < vocabularies.length - 1) {
+    if (currentIndex < vocabularies?.length - 1) {
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -98,7 +89,7 @@ const LessonDetails = () => {
           >
             Previous
           </button>
-          {currentIndex === vocabularies.length - 1 ? (
+          {currentIndex === vocabularies?.length - 1 ? (
             <button
               onClick={handleComplete}
               className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"

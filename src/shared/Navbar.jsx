@@ -39,12 +39,12 @@ const Navbar = () => {
             >
               Tutorials
             </Link>
-            <Link
+            {/* <Link
               to="/profile"
               className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium"
             >
               Profile
-            </Link>
+            </Link> */}
             {user ? (
               <button
                 onClick={handleLogout}

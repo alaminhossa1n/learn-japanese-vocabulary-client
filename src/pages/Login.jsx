@@ -1,18 +1,33 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setToken } from "../redux/features/auth/authSlice";
-import { useSigninMutation } from "../redux/features/auth/authApi";
+import {
+  useCurrentUserQuery,
+  useSigninMutation,
+} from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
+import { toast } from "sonner";
 
 const Login = () => {
   const [signin] = useSigninMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const { data } = useCurrentUserQuery();
+  const user = data?.data;
+  if (user) {
+    toast.info("Your are already Logged in");
+    if (user.role == "Admin") {
+      navigate("/admin-panel");
+    }
+    if (user.role == "User") {
+      navigate("/");
+    }
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,8 +37,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await signin(formData).unwrap();
-    
+
     if (res.success == true) {
+      toast.success("Login Successful");
       if (res.data.user.role == "Admin") {
         navigate("/admin-panel");
       }
